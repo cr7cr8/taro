@@ -5,21 +5,8 @@ import { View, Text, Button, Image } from "@tarojs/components";
 import AppContext from "./context/AppContext"
 
 
-import 'taro-ui/dist/style/index.scss' // 全局引入一次即可
-// class App extends Component {
-//   componentDidMount() { }
+//import 'taro-ui/dist/style/index.scss' // 全局引入一次即可
 
-//   componentDidShow() { }
-
-//   componentDidHide() { }
-
-//   componentDidCatchError() { }
-
-//   // this.props.children 是将要会渲染的页面
-//   render() {
-//     return this.props.children;
-//   }
-// }
 
 
 function App({ children, ...props }) {
@@ -41,3 +28,20 @@ function App({ children, ...props }) {
 
 
 export default App;
+
+
+
+// class App extends Component {
+//   componentDidMount() { }
+
+//   componentDidShow() { }
+
+//   componentDidHide() { }
+
+//   componentDidCatchError() { }
+
+//   // this.props.children 是将要会渲染的页面
+//   render() {
+//     return this.props.children;
+//   }
+// }

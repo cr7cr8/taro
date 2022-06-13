@@ -9,9 +9,9 @@ import Taro from "@tarojs/taro";
 import { localNumaaa } from "../index2/localNum";
 import AppContext from "../../context/AppContext";
 
-import { AtButton,AtSlider  } from "taro-ui";
-import "taro-ui/dist/style/components/slider.scss";
-
+import { AtButton, AtSlider, AtCalendar } from "taro-ui";
+//import "taro-ui/dist/style/components/slider.scss";
+import "taro-ui/dist/style/components/calendar.scss";
 const Index = () => {
 
   //console.log(localNumaaa, AppContext)
@@ -44,11 +44,19 @@ const Index = () => {
 
   return (
     <View className="wrapper">
-      <AtSlider step={1} value={50} activeColor='#4285F4' backgroundColor='#BDBDBD' blockColor='#4285F4' blockSize={24}></AtSlider>
-      <AtButton onClick={function(){
-        setCount(pre=>pre+1)
+
+      <AtCalendar />
+      <AtSlider step={1} value={50} activeColor='#4285F4' backgroundColor='#BDBDBD' blockColor='#4285F4' blockSize={24}
+      
+      onChanging={function(value){
+        console.log(value)
+      }}
+      
+      ></AtSlider>
+      <AtButton onClick={function () {
+        setCount(pre => pre + 1)
       }}>{count}</AtButton>
-      <Map longitude={100} latitude={30} showScale={true} style={{ height: "200px" }} />
+      <Map longitude={111.544} latitude={31.8683}  scale={8} showScale={true} style={{ height: "200px" }} />
 
       <Button onClick={function () {
         setCount(pre => pre + 1)
