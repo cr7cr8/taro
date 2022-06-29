@@ -45,9 +45,9 @@ const config = {
 
     // 使用预渲染也非常简单，我们只要进行简单的配置即可：
     // https://taro-docs.jd.com/taro/docs/guide/#%E5%85%A5%E5%8F%A3%E7%BB%84%E4%BB%B6
-    prerender: {
-      include: ['pages/nodes/nodes'], // `pages/nodes/nodes` 也会参与 prerender
-    }
+    // prerender: {
+    //   include: ['pages/nodes/nodes'], // `pages/nodes/nodes` 也会参与 prerender
+    // }
   },
   h5: {
     devServer: { port: 3008 },

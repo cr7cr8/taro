@@ -1,12 +1,13 @@
 import React, { useCallback, useRef, useEffect, useContext, useState } from "react";
 import Taro from "@tarojs/taro";
-import { View, Text, Button, Image, Swiper, SwiperItem, Navigator, Map } from "@tarojs/components";
+import { View, Text, Button, Image, Swiper, SwiperItem, Navigator, Map, Editor, Camera } from "@tarojs/components";
 import { useEnv, useNavigationBar, useModal, useToast } from "taro-hooks";
 
 
 
 import AppContext from "../../context/AppContext";
 
+import { AtButton, AtSlider, AtCalendar } from "taro-ui";
 
 export default function Index4() {
 
@@ -16,18 +17,51 @@ export default function Index4() {
     const recorderManager = useRef(Taro.getRecorderManager())
     recorderManager.current.onStop(function (soundFile) {
 
-        setSoundArr(pre => {
-            return [...pre, soundFile.tempFilePath,]
-        })
-        console.log(soundFile.tempFilePath)
+        Taro.saveFile({ tempFilePath: soundFile.tempFilePath }).then(result => {
+            console.log(result)
 
+            setSoundArr(pre => {
+                return [...pre, result.savedFilePath]
+            })
+
+        })
+        // console.log(soundFile.tempFilePath)
     })
 
     const [soundArr, setSoundArr] = useState([])
+    useEffect(function () {
+        Taro.getSavedFileList().then(list => {
+            setSoundArr(
+                list.fileList.map(item => {
+                    return item.filePath
+                })
+            )
+        })
+    }, [])
+
+
+
     return (
         <>
-
+   
             <Text>index 4</Text>
+
+            <Button onClick={function () {
+                Taro.redirectTo({ url: "/pages/index/index" })
+            }}>Go to index 1</Button>
+            <Button onClick={function () {
+                console.log(new Date())
+            }}>
+                Time
+            </Button>
+            <Button onClick={function () {
+                Taro.getSavedFileList().then(list => {
+                    console.log(list)
+                })
+            }}>
+                getFileList
+            </Button>
+
             <Button
                 onTouchStart={function () {
                     console.log(recorderManager.current)
@@ -39,12 +73,13 @@ export default function Index4() {
                     recorderManager.current.stop()
                 }}
             >录音</Button>
-            {soundArr.map((item, index) => {
-                return <Button key={index}
-                    onClick={function () {
+            {
+                soundArr.map((item, index) => {
+                    return <Button key={index}
+                        onClick={function () {
 
 
-                        function pv() {
+
                             console.log("pressed", index)
 
                             const innerAudioContext = Taro.createInnerAudioContext()
@@ -52,16 +87,20 @@ export default function Index4() {
 
                             innerAudioContext.src = item
 
-                            
 
-                            innerAudioContext.onPlay(() => {
-                                console.log('开始播放')
-                            })
+                            // innerAudioContext.onPlay(() => {
+                            //     console.log('开始播放',item)
+                            // })
                             innerAudioContext.onEnded(() => {
                                 innerAudioContext.destroy()
                             })
 
+                            innerAudioContext.onStop(() => {
+                                innerAudioContext.destroy()
+                            })
+
                             innerAudioContext.onError((res) => {
+                                innerAudioContext.destroy()
                                 console.log(res.errMsg)
                                 console.log(res.errCode)
                             })
@@ -82,15 +121,14 @@ export default function Index4() {
                             //         }, 0);
                             //     }
                             // })
-                        }
-                        pv()
 
 
-                    }}>
-                    播放{item}
-                </Button>
+                        }}>
+                        播放{item}
+                    </Button>
 
-            })}
+                })
+            }
 
         </>
     )
