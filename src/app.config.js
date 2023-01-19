@@ -1,6 +1,6 @@
 export default {
   pages: [
-
+ 
   //  "pages/index6/index6",
 
     "pages/index/index",
